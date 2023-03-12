@@ -94,7 +94,7 @@ else
     game:GetService("RunService"):Set3dRenderingEnabled(true)
 end
 
-if on then
+if on and not conn then -- If the script is toggled on and isn't already on, turn it on
     ls = game.Players.LocalPlayer:WaitForChild("leaderstats")
     coins = ls:WaitForChild("coins")
     if coins.Value < 50 then -- Send a notification if you don't have enough coins to buy cargo
@@ -254,7 +254,7 @@ if on then
     if game.Players.LocalPlayer.Character then -- Execute on character if one is already spawned
         Main.DoYourThing(game.Players.LocalPlayer.Character)
     end
-elseif not on and conn then
+elseif not on and conn then -- If the script is toggled off and is currently on, turn it off
     game:GetService("StarterGui"):SetCore("SendNotification", { -- Send a notification that it turned off
 	   Title = "PMEBGE Cargo Farm";
 	   Text = "Turned script off. It will finish the current cycle of buy and sell before shutting off.";
@@ -266,4 +266,10 @@ elseif not on and conn then
     conn = nil -- Delete the whole table
     if game.CoreGui:FindFirstChild("CargoShipper") then game.CoreGui:FindFirstChild("CargoShipper"):Destroy() end -- Delete the UI
     game:GetService("RunService"):Set3dRenderingEnabled(true) -- Re-enable rendering
+elseif  on and conn then -- If the script is toggled on but is already on, toggle the UI based on getgenv().showui
+    local CargoShipper = game.CoreGui:FindFirstChild("CargoShipper")
+    game:GetService("RunService"):Set3dRenderingEnabled(not showui) -- If showing UI then disable rendering, enable it if otherwise
+    if CargoShipper then -- Only enable the UI if it actually exists
+        CargoShipper.Enabled = showui
+    end
 end
