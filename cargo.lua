@@ -5,17 +5,17 @@ local ci = game.ReplicatedStorage:WaitForChild("CargoInfo") -- Folder for the th
 local remote = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Shop") -- Remote for buying and selling
 local Main = { -- Tables for the three traders, to organize and so I don't need an entire function just to get what you can buy from each, just to use in the function below
     Bricklandia = {
-        CFrame = CFrame.new(-461, 2, 234),
+        CFrame = CFrame.new(-461, -25, 234),
         Info = ci:WaitForChild("BricklandiaCargoTrader"),
         Cargo = {"flowers", "iron", "chalices"},
     },
     Farlands = {
-        CFrame = CFrame.new(1090, 2, -185),
+        CFrame = CFrame.new(1090, -25, -185),
         Info = ci:WaitForChild("FarlandsCargoTrader"),
         Cargo = {"coal", "lumber", "potions"},
     },
     Pirate = {
-        CFrame = CFrame.new(160, 18, -1535),
+        CFrame = CFrame.new(160, -25, -1535),
         Info = ci:WaitForChild("PirateCargoTrader"),
         Cargo = {"fish", "gunpowder", "gold"},
     }
@@ -88,7 +88,11 @@ Main.DoYourThing = function(chr) -- The main thing, connects to CharacterAdded a
     hum.Health = 0 -- You should kill yourself, NOW! (in case you turned it off manually)
 end
 
-game:GetService("RunService"):Set3dRenderingEnabled(not on) -- The reason why I had that thing that checks if on is actually true/false at the top
+if showui then -- Only disable rendering if showing UI
+    game:GetService("RunService"):Set3dRenderingEnabled(not on) -- The reason why I had that thing that checks if on is actually true/false at the top
+else
+    game:GetService("RunService"):Set3dRenderingEnabled(true)
+end
 
 if on then
     ls = game.Players.LocalPlayer:WaitForChild("leaderstats")
@@ -129,7 +133,7 @@ if on then
 	CargoShipper.Name = "CargoShipper"
 	CargoShipper.Parent = game.CoreGui
 	CargoShipper.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	CargoShipper.Enabled = true
+	CargoShipper.Enabled = showui
 
 	Background.Name = "Background"
 	Background.Parent = CargoShipper
