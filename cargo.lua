@@ -1,6 +1,12 @@
 if on ~= false and on ~= true and on ~= nil then on = true end -- Preventing funny stuff like setting on to a string
 if on == nil then on = false end -- Changing nil to false
 
+-- Anti AFK --
+repeat task.wait() until game:GetService("Players").LocalPlayer
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+	v:Disable()
+end
+
 local ci = game.ReplicatedStorage:WaitForChild("CargoInfo") -- Folder for the three traders
 local remote = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Shop") -- Remote for buying and selling
 local Main = { -- Tables for the three traders, to organize and so I don't need an entire function just to get what you can buy from each, just to use in the function below
